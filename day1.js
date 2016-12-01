@@ -58,16 +58,6 @@ function main(data) {
       let stepX = startX;
       let stepY = startY;
 
-      if (currDirection === 0) {
-        stepY += i;
-      } else if (currDirection === 1) {
-        stepX += i;
-      } else if (currDirection === 2) {
-        stepY -= i;
-      } else if (currDirection === 3) {
-        stepX -= i;
-      }
-
       for (location of visitedLocations) {
         let visitedX = location.x;
         let visitedY = location.y;
@@ -77,7 +67,15 @@ function main(data) {
         }
       }
 
-      visitedLocations.push({x:stepX, y:stepY});
+      if (currDirection === 0) {
+        visitedLocations.push({x:stepX, y:stepY+i});
+      } else if (currDirection === 1) {
+        visitedLocations.push({x:stepX+i, y:stepY});
+      } else if (currDirection === 2) {
+        visitedLocations.push({x:stepX, y:stepY-i});
+      } else if (currDirection === 3) {
+        visitedLocations.push({x:stepX-i, y:stepY});
+      }
     }
   }
 
@@ -97,27 +95,31 @@ function main2(data) {
     const distance = parseInt(direction.substr(1));
     currDirection = compass.getDirection(direction[0]);
 
+    for (location of visitedLocations) {
+      let visitedX = location.x;
+      let visitedY = location.y;
+
+      if (visitedX === startX && visitedY === startY) {
+        console.log('BUHEAH', startX + startY);
+      }
+    }
+
     for (let i = 0; i < distance; i++) {
       if (currDirection === 0) {
-        startY += i;
+        startY += 1;
       } else if (currDirection === 1) {
-        startX += i;
+        startX += 1;
       } else if (currDirection === 2) {
-        startY -= i;
+        startY -= 1;
       } else if (currDirection === 3) {
-        startX -= i;
+        startX -= 1;
       }
 
-      for (location of visitedLocations) {
-        let visitedX = location.x;
-        let visitedY = location.y;
-
-        if (visitedX === startX && visitedY === startY) {
-          console.log('BUHEAH', startX + startY);
-        }
+      if (visitedX === startX && visitedY === startY) {
+        console.log('BUHEAH', startX + startY);
+      } else {
+        visitedLocations.push({x:startX, y:startY});
       }
-
-      visitedLocations.push({x:startX, y:startY});
     }
   }
 }
